@@ -12,39 +12,45 @@
 #' s(1, 10)
 #'
 #' @export
-s <- function(beg = 1, 
+s <- function(start = 1, 
               end = as.numeric(length(readLines(file, warn = FALSE))), 
               file = dir()[grep("\\.R$", dir(), ignore.case = TRUE)][1],
               number.is.section = FALSE){
   	lines = readLines(file, warn = FALSE)
   	if(number.is.section){
-  	  sections <- grep(paste0("^#.*", ".+", ".*(#{4,}|-{4,}|={4,})$"),
+  	  sections <- grep(paste0("^#.*", "\\w+", ".*(#{4,}|-{4,}|={4,})$"),
   		           lines, ignore.case = TRUE)
-  	  if(beg == "last"){
-  	     beg <- end <- gsub("^#+(.*)(#{4,}|-{4,}|={4,})$", "\\1", 
+  	  if(start == "last"){
+  	     start <- end <- gsub("^#+(\\w*)(#{4,}|-{4,}|={4,})$", "\\1", 
   	                 lines[sections[length(sections)]])
   	  }else{
-  	     beg <- gsub("^#+(.*)(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[beg]])
-  	     end <- gsub("^#+(.*)(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[end]])
+  	     start <- gsub("^#+(\\w*)(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[start]])
+  	     end <- gsub("^#+(\\w*)(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[end]])
   	  }
   	}
-  	if(class(beg) != "numeric"){
-  		beg = grep(paste0("^#+.*", beg, ".*(#{4,}|-{4,}|={4,})$"),
-  		           lines, ignore.case = TRUE)[1]
-  		if(is.na(beg)) return(cat("Section does not exist."))
-  	}else if(beg < 0){beg <- beg + end}
+  	if(class(start) != "numeric"){
+  	   if(start == "head"){
+  	      start <- 1
+  	      end <- as.numeric(grep(paste("^#", "\\w+", "(#{4,}|-{4,}|={4,})$"), 
+  	                             lines, ignore.case = TRUE)[1]) - 1
+  	   }else{
+     	   start = grep(paste0("^#+.*", start, ".*(#{4,}|-{4,}|={4,})$"),
+     		         lines, ignore.case = TRUE)[1]}
+  	   if(is.na(start)) return(cat("Section does not exist."))
+  	}else if(start < 0){start <- start + end}
+  	
   	if(class(end) != "numeric"){
   	  end <- grep(paste0("^#+.*", end, ".*(#{4,}|-{4,}|={4,})$"),
   		           lines, ignore.case = TRUE)[1]
-  		if(beg == end){
-  		  end <- as.numeric(grep(paste("^#", ".+", "(#{4,}|-{4,}|={4,})$"), 
-  		                         lines[(beg + 1):length(lines)], 
-  		                         ignore.case = TRUE)[1]) + beg - 1
-  		  if(is.na(end)){end <- length(lines)}
+  		if(start == end){
+  		   end <- as.numeric(grep(paste("^#", "\\w+", "(#{4,}|-{4,}|={4,})$"), 
+  		                         lines[(start + 1):length(lines)], 
+  		                         ignore.case = TRUE)[1]) + start - 1
+  		   if(is.na(end)){end <- length(lines)}
   		}
-  	  if(is.na(end)){return(cat("Section does not exist."))}
   	}
-  	if(beg > length(lines)) return(cat("Line does not exist."))
-  	cat(paste("Source line: ", beg, "-", end, "\n"))
-  	eval(parse(text = lines[beg:end]), envir = .GlobalEnv)
+  	if(is.na(end)){return(cat("Section does not exist."))}
+  	if(start > length(lines)) return(cat("Line does not exist."))
+  	cat(paste("Source line: ", start, "-", end, "\n"))
+  	eval(parse(text = lines[start:end]), envir = .GlobalEnv)
 }

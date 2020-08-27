@@ -11,7 +11,7 @@
 #' so()
 #'
 #' @export
-so <- function(beg = "",
+so <- function(start = "head",
                file = dir()[grep("\\.R$", dir(), ignore.case = TRUE)][1]){
-	s(beg = beg, end = beg)
+	s(start = start, end = start)
 }

@@ -11,8 +11,8 @@
 #' ss()
 #'
 #' @export
-ss <- function(beg = "last",
-               end = beg, 
+ss <- function(start = "last",
+               end = start, 
                file = dir()[grep("\\.R$", dir(), ignore.case = TRUE)][1]){
-  s(beg, end, file, number.is.section = TRUE)
+  s(start, end, file, number.is.section = TRUE)
 }
