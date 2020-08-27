@@ -51,6 +51,6 @@ s <- function(start = 1,
   	}
   	if(is.na(end)){return(cat("Section does not exist."))}
   	if(start > length(lines)) return(cat("Line does not exist."))
-  	cat(paste("Source line: ", start, "-", end, "\n"))
+  	cat(paste("Source line:", start, "-", end, "\n"))
   	eval(parse(text = lines[start:end]), envir = .GlobalEnv)
 }
