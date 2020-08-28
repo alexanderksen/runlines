@@ -21,11 +21,12 @@ s <- function(start = 1,
   	  sections <- grep(paste0("^#.*", "\\w+", ".*(#{4,}|-{4,}|={4,})$"),
   		           lines, ignore.case = TRUE)
   	  if(start == "last"){
-  	     start <- end <- gsub("^#+(\\w*)(#{4,}|-{4,}|={4,})$", "\\1", 
+  	     start <- end <- gsub("^#\\W*(\\w*)\\W*(#{4,}|-{4,}|={4,})$", "\\1", 
   	                 lines[sections[length(sections)]])
+  	     print(lines[sections[length(sections)]])
   	  }else{
-  	     start <- gsub("^#+(\\w*)(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[start]])
-  	     end <- gsub("^#+(\\w*)(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[end]])
+  	     start <- gsub(gsub("^#\\W*(\\w*)\\W*(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[start]])
+  	     end <- gsub(gsub("^#\\W*(\\w*)\\W*(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[end]])
   	  }
   	}
   	if(class(start) != "numeric"){
