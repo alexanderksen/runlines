@@ -23,10 +23,9 @@ s <- function(start = 1,
   	  if(start == "last"){
   	     start <- end <- gsub("^#\\W*(\\w*)\\W*(#{4,}|-{4,}|={4,})$", "\\1", 
   	                 lines[sections[length(sections)]])
-  	     print(lines[sections[length(sections)]])
   	  }else{
-  	     start <- gsub(gsub("^#\\W*(\\w*)\\W*(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[start]])
-  	     end <- gsub(gsub("^#\\W*(\\w*)\\W*(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[end]])
+  	     start <- gsub("^#\\W*(\\w*)\\W*(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[start]])
+  	     end <- gsub("^#\\W*(\\w*)\\W*(#{4,}|-{4,}|={4,})$", "\\1", lines[sections[end]])
   	  }
   	}
   	if(class(start) != "numeric"){
