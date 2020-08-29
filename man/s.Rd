@@ -2,14 +2,12 @@
 % Please edit documentation in R/s.R
 \name{s}
 \alias{s}
-\title{Any comment line which includes at least four trailing dashes (-), 
-equal signs (=), or pound signs (#) automatically creates a code section.}
+\title{source the n-th section of the script, defaulting to the last section ####}
 \usage{
 s(
-  beg = 1,
-  end = as.numeric(length(readLines(file, warn = FALSE))),
-  file = dir()[grep("\\\\.R$", dir(), ignore.case = TRUE)][1],
-  number.is.section = FALSE
+  start = "last",
+  end = start,
+  file = dir()[grep("\\\\.R$", dir(), ignore.case = TRUE)][1]
 )
 }
 \arguments{
@@ -23,10 +21,9 @@ s(
 None
 }
 \description{
-Any comment line which includes at least four trailing dashes (-), 
-equal signs (=), or pound signs (#) automatically creates a code section.
+source the n-th section of the script, defaulting to the last section ####
 }
 \examples{
-s(1, 10)
+s()
 
 }
